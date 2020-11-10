@@ -73,15 +73,14 @@ class PCLUtilities
         static pcl::PointCloud<pcl::PointXYZ> pointCloud2ToPclXYZ(const pcl::PCLPointCloud2& p);
         static pcl::PointCloud<pcl::PointXYZRGB> pointCloud2ToPclXYZRGB(const pcl::PCLPointCloud2& p);
         static vector<vector<float> > pointCloud2ToVec(const sensor_msgs::PointCloud2& p);
-        template <typename PointT> static pcl::PointCloud<PointT> downsample(pcl::PointCloud<PointT> cloud);
         /*****************************************************************************/
         //Point Cloud File Handling Functions
         /****************************************************************************/	
         template <typename PointT> static void pclToCSV(const pcl::PointCloud<PointT>& p, std::string filename);
         template <typename PointT> static void pclToXYZ(const pcl::PointCloud<PointT>& p, std::string filename);
         static void xyzToPcd (const string &input_file, const string &output_file);
-        pcl::PCLPointCloud2 pcdToPointCloud2 (const std::string &filename);
-        void pointCloud2ToPly (const std::string &filename, const pcl::PCLPointCloud2 &cloud, bool format);
+        static pcl::PCLPointCloud2 pcdToPointCloud2 (const std::string &filename);
+        static void pointCloud2ToPly (const std::string &filename, const pcl::PCLPointCloud2 &cloud, bool format);
         template <typename PointT> static pcl::PointCloud<PointT> PlyToPcl(std::string filename);
         template <typename PointT> static void PclToPcd(std::string filename,const pcl::PointCloud<PointT>& cloud);
         template <typename PointT> static pcl::PointCloud<PointT> PcdToPcl(std::string filename);
@@ -89,11 +88,11 @@ class PCLUtilities
         //Visualization Utilities
         /******************************************************************/
         template <typename PointT> static void visualizePointCloud(const pcl::PointCloud<PointT>& cloud);
-        template <typename PointT> void visualizePointCloud(const pcl::PointCloud<PointT>& cloud,pcl::visualization::PCLVisualizer::Ptr viewer);
+        template <typename PointT> static void visualizePointCloud(const pcl::PointCloud<PointT>& cloud,pcl::visualization::PCLVisualizer::Ptr viewer);
         static void visualizeMesh(const pcl::PolygonMesh& triangles);
         template <typename PointT> static pcl::PointCloud<PointT> downsample(pcl::PointCloud<PointT> cloud,double leaf=0.01);
-        pcl::PointCloud<pcl::PointXYZRGB> makePointCloud(Mat& color_image, Mat& depth_image, Eigen::VectorXd& K, std::string& frame_id);
-        template <typename PointT> inline void publishPointCloud(const pcl::PointCloud<PointT>& cloud,const ros::Publisher& publish_cloud);
+        static pcl::PointCloud<pcl::PointXYZRGB> makePointCloud(Mat& color_image, Mat& depth_image, Eigen::VectorXd& K, std::string& frame_id);
+        template <typename PointT> static void publishPointCloud(const pcl::PointCloud<PointT>& cloud,const ros::Publisher& publish_cloud);
         static pcl::PolygonMesh fastMeshGeneration(pcl::PointCloud<PointXYZ>::Ptr cloud);
 };
 
