@@ -90,6 +90,8 @@ class PCLUtilities
         template <typename PointT> static void visualizePointCloud(const pcl::PointCloud<PointT>& cloud);
         template <typename PointT> static void visualizePointCloud(const pcl::PointCloud<PointT>& cloud,pcl::visualization::PCLVisualizer::Ptr viewer);
         static void visualizeMesh(const pcl::PolygonMesh& triangles);
+        template <typename PointT> static pcl::PointCloud<PointT> downsample(typename pcl::PointCloud<PointT>::Ptr cloud, double leaf=0.01);
+        template <typename PointT> static void downsample_ptr(typename pcl::PointCloud<PointT>::Ptr cloud, typename pcl::PointCloud<PointT>::Ptr cloud_filtered,double leaf=0.01);
         template <typename PointT> static pcl::PointCloud<PointT> downsample(pcl::PointCloud<PointT> cloud,double leaf=0.01);
         static pcl::PointCloud<pcl::PointXYZRGB> makePointCloud(Mat& color_image, Mat& depth_image, Eigen::VectorXd& K, std::string& frame_id);
         template <typename PointT> static void publishPointCloud(const pcl::PointCloud<PointT>& cloud,const ros::Publisher& publish_cloud);
@@ -154,6 +156,24 @@ template <typename PointT> pcl::PointCloud<PointT> PCLUtilities::downsample(pcl:
     sor.setInputCloud (cloud.makeShared());
     sor.filter (cloud_filtered);
     return cloud_filtered;
+}
+
+template <typename PointT> pcl::PointCloud<PointT> PCLUtilities::downsample(typename pcl::PointCloud<PointT>::Ptr cloud, double leaf)
+{
+    pcl::VoxelGrid<PointT> sor;
+    pcl::PointCloud<PointT> cloud_filtered;
+    sor.setLeafSize (leaf, leaf, leaf);
+    sor.setInputCloud (cloud);
+    sor.filter (cloud_filtered);
+    return cloud_filtered;
+}
+
+template <typename PointT> void PCLUtilities::downsample_ptr(typename pcl::PointCloud<PointT>::Ptr cloud, typename pcl::PointCloud<PointT>::Ptr cloud_filtered,double leaf)
+{
+    pcl::VoxelGrid<PointT> sor;
+    sor.setLeafSize (leaf, leaf, leaf);
+    sor.setInputCloud (cloud);
+    sor.filter (*cloud_filtered);
 }
 
 template <typename PointT> void PCLUtilities::pclToCSV(const pcl::PointCloud<PointT>& p, std::string filename)
